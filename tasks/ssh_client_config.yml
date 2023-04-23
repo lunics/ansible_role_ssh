@@ -1,0 +1,12 @@
+- block:
+  - name: ssh_client_config | template > generate openssh-client config
+    ansible.builtin.template:
+      src:   ssh_config.j2
+      dest:  "/home/{{ item.owner }}/.ssh/config"
+      owner: "{{ item.owner }}"
+      group: "{{ item.group | default(omit) }}"
+      mode:  "0600"
+    when: ssh_client_config is defined
+    with_items: "{{ ssh_user }}"
+
+  tags: ssh_client_config

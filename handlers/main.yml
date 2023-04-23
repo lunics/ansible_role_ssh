@@ -1,0 +1,11 @@
+- name: handler | service > restart sshd
+  service:
+    name: "{{ sshd.service }}"
+    state: restarted
+  when: sshd_enable | bool
+
+- name: handler | service > reload sshd
+  systemd:
+    name:  "{{ sshd.service }}"
+    state: reloaded
+  when: sshd_enable | bool

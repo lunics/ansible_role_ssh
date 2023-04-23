@@ -1,0 +1,48 @@
+- block:
+  # example known_hosts
+  # 192.168.1.35 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGC7IOxhsdrRhMawjSbpw9ap2CXMPnHkPeMuuuziwvjyZhItUrzL3yo9RCYWQaqjgtFVgcXBU8pjbWXikuEFWEY=
+  # desktop-x370 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFj5auXLAQKGp1iXEIAGZUM7hr9PS0MGXJQ2HfJiIZvb
+
+  ### v1 ###
+  # why this task ?
+  # - name: (known_hosts) stat > check directories exist
+  #   ansible.builtin.stat:
+  #     path: "{{ item.path | dirname }}/"
+  #   register: _stat_directories
+  #   with_items:
+  #     - "{{ ssh_keys_known_hosts }}"
+  #   tags: ssh_check_known_hosts_directories
+
+  # - name: (known_hosts) file > create directories
+  #   ansible.builtin.file:
+  #     path:  "{{ item.item }}"
+  #     state: directory
+  #     owner: root
+  #     group: root
+  #     mode:  "0755"
+  #   with_items: "{{ _stat_directories.results }}"
+  #   when: not item.stat.exists | bool
+  #   tags: ssh_create_known_hosts_directories
+
+  - name: known_hosts | template > update file
+    ansible.builtin.template:
+      src:   "{{ ssh_keys_known_hosts_path.lstrip('/') }}.j2"
+      dest:  "{{ ssh_keys_known_hosts_path }}"
+      owner: root
+      group: root
+      mode:  "0644"
+    tags: ssh_update_known_hosts
+
+  ### v2 ###
+  # var example
+  #   ssh_keys_known_hosts:
+  #     - name: 192.168.1.17
+  #       key:  "{{ path.play }}/files/ssh/laptop-t480_desktop-x370.pub"
+  # - name: Another way to call known_hosts
+  #   ansible.builtin.known_hosts:
+  #     path: "{{ item.path | default(omit) }}"
+  #     name: "{{ item.name }}"
+  #     key:  "{{ lookup('file', '{{ role_path }}/files/item.pub_key') }}"
+  #   with_subelements: "{{ ssh_keys_known_hosts }}"
+
+  tags: ssh_known_hosts

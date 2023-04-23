@@ -1,0 +1,54 @@
+- block:
+  - name: set_fact | shell > get openssh-version
+    shell: ssh -V 2>&1 | sed -r 's/.*_([0-9]*\.[0-9]).*/\1/g'
+    args:
+      executable: /bin/sh
+    changed_when: false
+    register: openssh_version
+    check_mode: no
+
+  # Set strong cipher and crypto params
+  ### CIPHERS ###
+  - name: set_fact | Use strong cipher with opnessh 6.6
+    set_fact:
+      openssh_ciphers: '{{ ciphers_openssh_66 }}'
+    when: openssh_version.stdout >= '6.6' and not openssh_ciphers
+
+  - name: set_fact | Use strong cipher with openssh 5.3
+    set_fact:
+      openssh_ciphers: '{{ ciphers_openssh_53 }}'
+    when: openssh_version.stdout >= '5.3' and not openssh_ciphers
+
+  ### MESSAGE AUTHENTIFICATION CODE ###
+  - name: set_fact | Use strong macs with opnessh 7.6
+    set_fact:
+      openssh_macs: '{{ macs_openssh_76 }}'
+    when: openssh_version.stdout >= '7.6' and not openssh_macs
+
+  - name: set_fact | Use strong macs with opnessh 6.6
+    set_fact:
+      openssh_macs: '{{ macs_openssh_66 }}'
+    when: openssh_version.stdout >= '6.6' and not openssh_macs
+
+  - name: set_fact | Use strong cipher with openssh 5.9
+    set_fact:
+      openssh_macs: '{{ macs_openssh_59 }}'
+    when: openssh_version.stdout >= '5.9' and not openssh_macs
+
+  - name: set_fact | Use strong cipher with openssh 5.3
+    set_fact:
+      openssh_macs: '{{ macs_openssh_53 }}'
+    when: openssh_version.stdout >= '5.3' and not openssh_macs
+
+  ### KEY EXCHANGE ALGORITHMS ###
+  - name: set_fact | Use strong kexalgorithms with opnessh 6.6
+    set_fact:
+      openssh_kexalgorithms: '{{ kexalgorithms_openssh_66 }}'
+    when: openssh_version.stdout >= '6.6' and not openssh_kexalgorithms
+
+  - name: set_fact | Use strong kexalgorithms with openssh 5.3
+    set_fact:
+      openssh_kexalgorithms: '{{ kexalgorithms_openssh_53 }}'
+    when: openssh_version.stdout >= '5.3' and not openssh_kexalgorithms
+
+  tags: ssh_set_fact

@@ -1,0 +1,31 @@
+{{ ansible_managed | comment }}
+
+{% for item_client in ssh_client_config %}
+{% if item.owner == item_client.owner %}
+Host {{ item_client.host }}
+  User {{ item_client.user }}
+  IdentityFile ~/.ssh/{{ item_client.private_key }}
+  Port {{ item_client.port | default('22') }}
+  Protocol 2
+  StrictHostKeyChecking no
+  #UseRoaming {{ item_client.roaming | default('no') }}   ## KO
+  PasswordAuthentication {{ item_client.password_authentification | default('no') }}
+  # PermitLocalCommand no
+  # CheckHostIP yes
+  # BatchMode no
+  # StrictHostKeyChecking ask
+  # ForwardAgent no
+  # ForwardX11 no
+  # Tunnel no
+{% endif %}
+{% endfor %}
+
+### CRYPTO ###
+# Ciphers {{ openssh_ciphers | join(',') }}
+# MACs {{ openssh_macs | join(',') }}
+# KexAlgorithms {{ openssh_kexalgorithms | join(',') }}
+# ForwardX11Trusted yes
+# SendEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+# SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+# SendEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+# SendEnv XMODIFIERS

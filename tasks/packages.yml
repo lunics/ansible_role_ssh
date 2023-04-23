@@ -1,0 +1,18 @@
+- block:
+  - name: packages | package > ssh packages
+    ansible.builtin.package:
+      name: "{{ ssh.packages }}"
+
+  - name: packages | aur > install sshs
+    aur:
+      name: "{{ item }}"
+    with_items:
+      - sshs
+    become: yes
+    become_user: aur
+    when:
+      - ansible_distribution == "Archlinux"
+      - ansible_architecture != "aarch64"
+      - ansible_play_name != "chroot"
+
+  tags: ssh_packages

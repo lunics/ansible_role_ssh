@@ -1,0 +1,60 @@
+_ssh_keys_generate_keys_command: >-
+  openssl \
+    gen{{ item.type | default('rsa') }} \
+    -out {{ item.path }} \
+    {{ item.cipher if item.cipher is defined else '' }} \
+    {{ '-passout stdin' if item.passphrase is defined else '' }} \
+    {{ item.size | default(4096) }} \
+    {{  '<<< "' + item.passphrase + '"' if item.passphrase is defined else '' }}
+
+_ssh:
+  packages:
+    default:
+      - openssh
+      - sshpass     # fool ssh into accepting an interactive password non-intera
+    Archlinux:
+      - openssh
+      - sshpass
+      # - keychain          # A front-end to ssh-agent
+      # - x11-ssh-askpass   # Lightweight gui passphrase dialog for SSH
+      # - autossh           # if needed to keep a ssh session always open
+    Alpine:
+    Debian:
+    Fedora:
+    RedHat:
+      - openssh
+      - openssh-clients
+      - sshpass
+    Centos:
+    Suse:
+
+  service:
+    default:   sshd     # Archlinux, FreeBSD, Gentoo, OpenBSD, RedHat, Suse
+    Archlinux: sshd
+    Alpine:
+    Debian:    ssh
+    Fedora:
+    RedHat:
+    Centos:
+    Suse:
+
+  sshd:
+    config:
+      path:
+        default: /etc/ssh/sshd_config
+      owner:
+        default: root
+      group:
+        default: root
+        FreeBSD: wheel
+        OpenBSD: wheel
+
+ssh:
+  packages: "{{ _ssh.packages[ansible_os_family] | default(_ssh.packages['default']) }}"
+
+sshd:
+  service: "{{ _ssh.service[ansible_os_family] | default(_ssh.service['default']) }}"
+  config:
+    path: "{{ _ssh.sshd.config.path[ansible_os_family] | default(_ssh.sshd.config.path['default']) }}"
+    owner: "{{ _ssh.sshd.config.owner[ansible_os_family] | default(_ssh.sshd.config.owner['default']) }}"
+    group: "{{ _ssh.sshd.config.group[ansible_os_family] | default(_ssh.sshd.config.group['default']) }}"
