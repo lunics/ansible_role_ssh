@@ -10,7 +10,7 @@
   #     var: ansible_facts.getent_passwd
 
   - name: user_dirs | file > create default user ssh directory
-    ansible.builtin.file:
+    file:
       path: "/home/{{ item.owner }}/.ssh"
       state: directory
       owner: "{{ item.owner }}"
@@ -19,7 +19,7 @@
     with_items: "{{ ssh_user }}"
 
   - name: user_dirs | file > create private keys directory
-    ansible.builtin.file:
+    file:
       path: "{{ (item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.dest | default(ssh_keys_private_key_filename)))) | dirname }}"
       state: directory
       owner: "{{ item.owner }}"
@@ -27,22 +27,21 @@
       mode:  "0700"
     with_items: "{{ ssh_keys_private_keys }}"
     when:
-      - ssh_keys_private_keys is defined
+      - ssh_keys_private_keys | length
       - item.dest_managed | default(true)
     tags: ssh_private_keys_dir
 
   - name: public_keys | file > create public keys directory
-    ansible.builtin.file:
+    file:
       path: "~{{ item.owner }}/{{ ssh_keys_sshdir }}"
       state: directory
       owner: "{{ item.owner }}"
       group: "{{ item.group | default(omit) }}"
       mode:  "0700"
-    with_items: "{{ ssh_keys_public_keys }}"
     when:
-      - ssh_keys_public_keys is defined
+      - ssh_keys_public_keys | length
       - item.dest_managed | default(true)
     tags: ssh_public_keys_dir
 
-  when: ssh_user is defined
+  when: ssh_user | length
   tags: ssh_user_dirs

@@ -1,6 +1,6 @@
 - block:
   - name: public-keys | copy > public keys
-    ansible.builtin.copy:
+    copy:
       src:   "{{ item.src }}"
       dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_public_key_filename))) }}"
       owner: "{{ item.owner }}"
@@ -8,17 +8,17 @@
       mode:  "{{ item.mode | default('0644') }}"
     with_items: "{{ ssh_keys_public_keys }}"
     when:
-      - ssh_keys_public_keys is defined
+      - ssh_keys_public_keys | length
       - item.state is undefined or item.state == 'present'
     tags: ssh_public_keys_add
 
   - name: public-keys | file > remove public key
-    ansible.builtin.file:
+    file:
       path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_public_key_filename))) }}"
       state: absent
     with_items: "{{ ssh_keys_public_keys }}"
     when:
-      - ssh_keys_public_keys is defined
+      - ssh_keys_public_keys | length
       - item.state is defined and item.state == 'absent'
     tags: ssh_public_keys_remove
 

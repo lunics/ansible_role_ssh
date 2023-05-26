@@ -1,11 +1,11 @@
 - block:
   - name: authorized_keys | set up pub keys for users
-    ansible.posix.authorized_key:
+    authorized_key:
       user:  "{{ item.owner }}"
       key:   "{{ lookup('file', item.src) }}"
       state: "{{ item.state | default('present') }}"
       path:  "{{ item.path | default('~' + item.owner + '/' + ssh_keys_sshdir + '/authorized_keys') }}"
     with_items: "{{ ssh_keys_authorized_keys }}"
-    when: ssh_keys_authorized_keys is defined
+    when: ssh_keys_authorized_keys | length
 
   tags: ssh_authorized_keys

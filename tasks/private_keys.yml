@@ -1,6 +1,6 @@
 - block:
   - name: private_keys | copy > private keys
-    ansible.builtin.copy:
+    copy:
       src:   "{{ item.src }}"
       dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_private_key_filename))) }}"
       owner: "{{ item.owner }}"
@@ -8,19 +8,19 @@
       mode:  "{{ item.mode | default('0600') }}"
     with_items: "{{ ssh_keys_private_keys }}"
     when:
-      - ssh_keys_private_keys is defined
+      - ssh_keys_private_keys | length
       - item.state is undefined or item.state == "present"
       - inventory_hostname != "chroot"
     tags: ssh_private_keys_add
 
   - name: private_keys | file > remove private keys
-    ansible.builtin.file:
+    file:
       path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_private_key_filename))) }}"
       state: absent
-    with_items: "{{ ssh_keys_private_keys }}"
     when:
-      - ssh_keys_private_keys is defined
+      - ssh_keys_private_keys | length
       - item.state is defined and item.state == 'absent'
+    with_items: "{{ ssh_keys_private_keys }}"
     tags: ssh_private_keys_remove
 
   tags: ssh_private_keys

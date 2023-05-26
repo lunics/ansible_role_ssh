@@ -55,6 +55,6 @@ ssh:
 sshd:
   service: "{{ _ssh.service[ansible_os_family] | default(_ssh.service['default']) }}"
   config:
-    path: "{{ _ssh.sshd.config.path[ansible_os_family] | default(_ssh.sshd.config.path['default']) }}"
+    path:  "{{ _ssh.sshd.config.path[ansible_os_family]  | default(_ssh.sshd.config.path['default'])  }}"
     owner: "{{ _ssh.sshd.config.owner[ansible_os_family] | default(_ssh.sshd.config.owner['default']) }}"
     group: "{{ _ssh.sshd.config.group[ansible_os_family] | default(_ssh.sshd.config.group['default']) }}"

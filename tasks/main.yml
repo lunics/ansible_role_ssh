@@ -1,24 +1,24 @@
 - block:
-  - ansible.builtin.import_tasks: set_fact.yml
+  - import_tasks: set_fact.yml
 
-  - ansible.builtin.import_tasks: packages.yml
+  - import_tasks: packages.yml
 
-  - ansible.builtin.import_tasks: sshd_config.yml
+  - import_tasks: sshd_config.yml
 
-  - ansible.builtin.import_tasks: user_dirs.yml
+  - import_tasks: user_dirs.yml
 
-  - ansible.builtin.import_tasks: ssh_client_config.yml
+  - import_tasks: ssh_client_config.yml
 
-  - ansible.builtin.import_tasks: generate.yml
+  - import_tasks: generate.yml
 
-  - ansible.builtin.import_tasks: private_keys.yml
+  - import_tasks: private_keys.yml
 
-  - ansible.builtin.import_tasks: public_keys.yml
+  - import_tasks: public_keys.yml
 
-  - ansible.builtin.import_tasks: authorized_keys.yml
+  - import_tasks: authorized_keys.yml
 
-  ## not ready
-  # - ansible.builtin.import_tasks: known_hosts.yml
+  # - import_tasks: known_hosts.yml     ## todo
 
-  become: yes
+  become_user: root
+  become: true
   tags: ssh

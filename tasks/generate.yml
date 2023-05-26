@@ -1,18 +1,18 @@
 - block:
   - name: generate | file > create ssh key generation directory
-    ansible.builtin.file:
+    file:
       path:  "{{ item.path | dirname }}"
       state: directory
       owner: "{{ item.owner }}"
       group: "{{ item.group | default(omit) }}"
       mode:  "0700"
     with_items: "{{ ssh_keys_generate_keys }}"
-    when: ssh_keys_generate_keys is defined
+    when: ssh_keys_generate_keys | length
     tags: ssh_generate_key_directoriy
 
   # KO
   # - name: (generate) shell > generate private ssh key
-  #   ansible.builtin.shell: >
+  #   shell: >
   #     {{ ssh_keys_generate_keys_command | default(_ssh_keys_generate_keys_command) }}
   #   with_items: "{{ ssh_keys_generate_keys }}"
   #   when: >-
@@ -21,7 +21,7 @@
   #   tags: ssh_generate_private_keys
 
   # - name: (generate) openssl_publickey > generate public ssh key
-  #   community.crypto.openssl_publickey:
+  #   openssl_publickey:
   #     path:   "{{ item.path }}.pub"
   #     force:  "{{ item.force | default(false) }}"
   #     format: "{{ item.format | default('OpenSSH') }}"
@@ -34,7 +34,7 @@
   #   tags: ssh_generate_public_keys
 
   # - name: (generate) file > set permissions on keys
-  #   ansible.builtin.file:
+  #   file:
   #     path:  "{{ item.path }}"
   #     owner: "{{ item.owner }}"
   #     group: "{{ item.group | default(omit) }}"
@@ -43,7 +43,7 @@
   #   tags: ssh_set_keys_permissions
 
   - name: generate | openssh_keypair > create private & public keys
-    community.crypto.openssh_keypair:
+    openssh_keypair:
       path: "{{ item.path }}"
       type: "{{ item.type | default('ed25519') }}"
       size: "{{ item.size | default(omit) }}"
@@ -54,7 +54,7 @@
       mode:  "{{ item.mode | default('0600')}}"
       regenerate: full_idempotence
     with_items: "{{ ssh_keys_generate_keys }}"
-    when: ssh_keys_generate_keys is defined
+    when: ssh_keys_generate_keys | length
     tags: ssh_generate_key_pair
 
   when: ansible_play_name != "chroot"

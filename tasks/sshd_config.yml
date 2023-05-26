@@ -1,15 +1,15 @@
 - block:
   - name: sshd_config | template > generate banner
-    ansible.builtin.template:
+    template:
       src:    banner.j2
       dest:   "{{ sshd_banner_path }}"
       owner:  root
       group:  "{{ sshd.config.group }}"
       mode:   "0664"
-    when: sshd_banner_msg is defined and sshd_banner_msg | length
+    when: sshd_banner_msg | length
 
   - name: sshd_config | template > generate sshd_config
-    ansible.builtin.template:
+    template:
       src:   sshd_config.j2
       dest:  "{{ sshd.config.path }}"
       owner: "{{ sshd.config.owner }}"
@@ -18,7 +18,7 @@
     notify: "handler | service > restart sshd"
 
   - name: sshd_config | service > start and enable sshd
-    ansible.builtin.service:
+    service:
       name:    "{{ sshd.service }}"
       state:   started
       enabled: yes
