@@ -1,5 +1,5 @@
 - block:
-  - name: generate | file > create ssh key generation directory
+  - name: generate_keys | file > create ssh key generation directory
     file:
       path:  "{{ item.path | dirname }}"
       state: directory
@@ -8,10 +8,9 @@
       mode:  "0700"
     with_items: "{{ ssh_keys_generate_keys }}"
     when: ssh_keys_generate_keys | length
-    tags: ssh_generate_key_directoriy
 
   # KO
-  # - name: (generate) shell > generate private ssh key
+  # - name: generate | shell > generate private ssh key
   #   shell: >
   #     {{ ssh_keys_generate_keys_command | default(_ssh_keys_generate_keys_command) }}
   #   with_items: "{{ ssh_keys_generate_keys }}"
@@ -20,7 +19,7 @@
   #     item.path is not file
   #   tags: ssh_generate_private_keys
 
-  # - name: (generate) openssl_publickey > generate public ssh key
+  # - name: generate | openssl_publickey > generate public ssh key
   #   openssl_publickey:
   #     path:   "{{ item.path }}.pub"
   #     force:  "{{ item.force | default(false) }}"
@@ -33,7 +32,7 @@
   #   with_items: "{{ ssh_keys_generate_keys }}"
   #   tags: ssh_generate_public_keys
 
-  # - name: (generate) file > set permissions on keys
+  # - name: generate | file > set permissions on keys
   #   file:
   #     path:  "{{ item.path }}"
   #     owner: "{{ item.owner }}"
@@ -42,7 +41,7 @@
   #   with_items: "{{ ssh_keys_generate_keys }}"
   #   tags: ssh_set_keys_permissions
 
-  - name: generate | openssh_keypair > create private & public keys
+  - name: generate_keys | openssh_keypair > create private & public keys
     openssh_keypair:
       path: "{{ item.path }}"
       type: "{{ item.type | default('ed25519') }}"
@@ -55,9 +54,8 @@
       regenerate: full_idempotence
     with_items: "{{ ssh_keys_generate_keys }}"
     when: ssh_keys_generate_keys | length
-    tags: ssh_generate_key_pair
 
   when: ansible_play_name != "chroot"
   # delegate_to: localhost                       ## needs --ask-become-pass when running a PB in localhost with this delegate_to
   # become: "{{ ssh_keys_generate_keys_become }}"
-  tags: ssh_generate
+  tags: ssh_generate_keys

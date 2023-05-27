@@ -9,7 +9,7 @@
 
   - import_tasks: ssh_client_config.yml
 
-  - import_tasks: generate.yml
+  - import_tasks: generate_keys.yml
 
   - import_tasks: private_keys.yml
 
