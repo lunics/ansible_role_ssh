@@ -8,8 +8,21 @@ Host {{ item_client.host }}
   Port {{ item_client.port | default('22') }}
   Protocol 2
   StrictHostKeyChecking no
-  #UseRoaming {{ item_client.roaming | default('no') }}   ## KO
   PasswordAuthentication {{ item_client.password_authentification | default('no') }}
+  {% if item_client.proxy_jump is defined %}
+  ProxyJump {{ item_client.proxy_jump }}
+  {% endif %}
+  {% if item_client.send_env is defined %}
+  SendEnv {{ item_client.send_env }}
+  {% endif %}
+{% endif %}
+{% endfor %}
+
+{#
+Host ...
+  ...
+  ## TODO ##
+  #UseRoaming {{ item_client.roaming | default('no') }}   ## KO
   # PermitLocalCommand no
   # CheckHostIP yes
   # BatchMode no
@@ -17,8 +30,7 @@ Host {{ item_client.host }}
   # ForwardAgent no
   # ForwardX11 no
   # Tunnel no
-{% endif %}
-{% endfor %}
+
 
 ### CRYPTO ###
 # Ciphers {{ openssh_ciphers | join(',') }}
@@ -29,3 +41,4 @@ Host {{ item_client.host }}
 # SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 # SendEnv LC_IDENTIFICATION LC_ALL LANGUAGE
 # SendEnv XMODIFIERS
+#}

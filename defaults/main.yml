@@ -1,6 +1,7 @@
 ssh_user: []                  # to generate ~/.ssh dir and ~/.ssh/config client based on the 'owner' key
 #   - owner: luke             # [required]
 #     group: wheel
+#     client_dir: /home/%u/custom/ssh  # [optional]
 
 ssh_keys_generate_keys: []    # keys to generate locally
 #   - path:                   # [required] The local path where the key should be generated
@@ -58,6 +59,8 @@ ssh_client_config: []
 #     port: 6189                        # [default: 22]
 #     roaming: "no"                     # [default: no]
 #     password_authentification: "no"   # [default: no] allow only pub key
+#     proxy_jump:  userA@server_jump.org
+#     send_env:    GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
 
 public_keys: []             # transfert ssh public on the target host
 # - key1
@@ -160,6 +163,7 @@ sshd_Subsystem:               "sftp /usr/libexec/openssh/sftp-server"      # ove
 
 ### OPENSSH-CLIENT ###
 ## SUPPRIMER POUR METTRE EN default(value)
+ssh_client_dir:                .ssh
 ssh_keys_sshdir:               .ssh
 ssh_keys_private_key_filename: id_rsa
 ssh_keys_public_key_filename:  id_rsa.pub

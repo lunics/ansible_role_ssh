@@ -11,11 +11,14 @@ _ssh:
   packages:
     default:
       - openssh
-      - sshpass     # fool ssh into accepting an interactive password non-intera
+      - sshpass           # fool ssh into accepting an interactive password non-intera
+      - keychain          # A front-end to ssh-agent
+      # - expect            # tool for automating interactive applications to pipe password keys to ssh-add automatically
     Archlinux:
       - openssh
       - sshpass
-      # - keychain          # A front-end to ssh-agent
+      - keychain
+      # - expect
       # - x11-ssh-askpass   # Lightweight gui passphrase dialog for SSH
       # - autossh           # if needed to keep a ssh session always open
     Alpine:
