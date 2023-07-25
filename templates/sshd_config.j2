@@ -10,17 +10,17 @@ Protocol {{ sshd_protocol_version }}
 
 PubkeyAuthentication {{ sshd_pubkey_authentication }}
 
-AuthorizedKeysFile /home/%u/{{ ssh_client_dir }}/authorized_keys
+AuthorizedKeysFile /home/%u/{{ ssh_client_path }}/authorized_keys
 
 {% for item in ssh_user %}
-  {%- if item.client_dir is defined %}
+  {%- if item.path is defined %}
 match User {{ item.owner }}
-  AuthorizedKeysFile {{ item.client_dir }}
+  AuthorizedKeysFile /home/%u/{{ item.path }}
   {% endif %}
 {% endfor -%}
 
 {% for key in sshd_host_key_files -%}
-HostKey {{key}}
+HostKey {{ key }}
 {% endfor %}
 
 ### CRYPTOGRAPHY ###

@@ -1,11 +1,11 @@
 - block:
   - import_tasks: set_fact.yml
 
-  # - import_tasks: packages.yml
+  - import_tasks: packages.yml
 
   - import_tasks: sshd_config.yml
 
-  - import_tasks: user_dirs.yml
+  - import_tasks: user_dirs.yml       ## create $USER/.ssh without care of path_dot
 
   - import_tasks: ssh_client_config.yml
 
@@ -20,5 +20,4 @@
   # - import_tasks: known_hosts.yml     ## todo
 
   become_user: root
-  become: true
   tags: ssh

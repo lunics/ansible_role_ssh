@@ -20,8 +20,7 @@
   - name: sshd_config | service > start and enable sshd
     service:
       name:    "{{ sshd.service }}"
-      state:   started
+      state:   "{{ 'started' if ansible_play_name != 'chroot' else omit }}"
       enabled: yes
-    # when: ansible_play_name != "chroot"     ## even if warning, need it to enable service
 
   tags: sshd_config

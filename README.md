@@ -42,5 +42,10 @@ ssh_keys_private_keys:
     src:   "{{ path_play }}/files/ssh/foo-key"
 ```
 TODO
+- import_tasks: user_dirs.yml  create $USER/.ssh without care of path_dot
+- add inspired from repos
 - auto populate private keys needed by ssh_client_config
 - replace ssh_keys_generate_keys.path by ssh_keys_generate_keys.dest
+- change all vars/main.yml like sshd.config.path by sshd_confing_path ?
+- know_hosts.yml
+- add root compatibility for AuthorizedKeysFile on sshd_config

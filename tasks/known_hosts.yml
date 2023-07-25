@@ -1,7 +1,7 @@
 - block:
   # example known_hosts
-  # 192.168.1.35 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmladHAyNTYAAAIIbmlzdHAyNTYBAABBBGC7IOxhsdrRhMawjSbpw9ap2CXMPnHkPeMuuuziwvjyZhItUrzL3yo9RCYWQaqjgtFVgcXBU8pjbWXikuEFWEY=
-  # desktop-x370 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFj5auXLAQKGp1iXEIAGZUM7hr9PS0MGSJQ3HfJiIZvb
+  # 192.168.1.35 ecdsa-sha2-nistp256 AAAAE2VjZHYhLXNoYTItbmladHAyNTYAAAIIbmlzdHAyNTYBAABBBGC7IOxhsdrRhMawjSbpw9ap2CXMPnHkPeMuuuziwvjyZhItUrzL3yo9RCYWQaqjgtFVgcXBU8pjbWXikuEFWEY=
+  # desktop-x370 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFj6auXLAQKGp1iXEIAGZUM7hr9PS0MGSJQ3HfJiIZvb
 
   ### v1 ###
   # why ?

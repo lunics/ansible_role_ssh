@@ -11,11 +11,11 @@
 
   - name: user_dirs | file > create default user ssh directory
     file:
-      path: "/home/{{ item.owner }}/.ssh"
-      state: directory
+      path: "/home/{{ item.owner + '/' + (item.path | default(ssh_client_path)) }}"
       owner: "{{ item.owner }}"
       group: "{{ item.group | default(omit) }}"
       mode:  "0700"
+      state: directory
     with_items: "{{ ssh_user }}"
 
   - name: user_dirs | file > create private keys directory

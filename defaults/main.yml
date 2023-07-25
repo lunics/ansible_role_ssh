@@ -1,54 +1,54 @@
 ssh_user: []                  # to generate ~/.ssh dir and ~/.ssh/config client based on the 'owner' key
-#   - owner: luke             # [required]
-#     group: wheel
-#     client_dir: /home/%u/custom/ssh  # [optional]
+#   - owner: luke             # required
+#     group: wheel            # optional
+#     path:  custom/ssh       # optional, relative path of client ssh (ex: /home/luke/custom/ssh)
 
 ssh_keys_generate_keys: []    # keys to generate locally
-#   - path:                   # [required] The local path where the key should be generated
-#     cipher:                 # [default: none] The cipher to encrypt the private key
-#     format:                 # [default: OpenSSH]: The format of the public key
-#     force:                  # [default: false] Whether to regenerate the key pair if it already exists
-#     owner:                  # [required] The name of the user that should own the key pair
-#     group:                  # [default: owner] The name of the group that should own the key pair
-#     mode:                   # [default: 0600] The UNIX permission mode bits of the key pair
-#     passphrase:             # [default: ''] The passphrase for the private key
-#     size:                   # [default: 4096] Size in bits of the TLS/SSL key to generate
-#     type:                   # [default: RSA] The algorithm used to generate the private key
+#   - path:                   # required, The local path where the key should be generated
+#     cipher:                 # optional, default=none,    The cipher to encrypt the private key
+#     format:                 # optional, default=OpenSSH, The format of the public key
+#     force:                  # optional, default=false,   Whether to regenerate the key pair if it already exists
+#     owner:                  # optional, required,        The name of the user that should own the key pair
+#     group:                  # optional, default=owner,   The name of the group that should own the key pair
+#     mode:                   # optional, default=0600,    The UNIX permission mode bits of the key pair
+#     passphrase:             # optional, default='',      The passphrase for the private key
+#     size:                   # optional, default=4096,    Size in bits of the TLS/SSL key to generate
+#     type:                   # optional, default=RSA,     The algorithm used to generate the private key
 
-# ssh_keys_generate_keys_command: []  # [default: _ssh_keys_generate_keys_command]:
-# ssh_keys_generate_keys_become: []   # [default: false]: Whether or not to use sudo when generating ssh keys (locally)
+# ssh_keys_generate_keys_command: []  # default=_ssh_keys_generate_keys_command
+# ssh_keys_generate_keys_become: []   # default=false, Whether or not to use sudo when generating ssh keys (locally)
 
 ssh_keys_private_keys: []
-#   - owner:                  # [required] The name of the user that should own the file
-#     group:                  # [default: owner] The name of the group that should own the file
-#     mode:                   # [default: 0600]: The UNIX permission mode bits of the file
-#     src:                    # [required] The local path of the key
-#     dest:                   # [default: id_rsa] The remote path of the key (relative to home/.ssh/)   ## has been removed
-#     dest_absolute:          # [optional] The remote path of the key
-#     dest_managed:           # [default: true] Whether or not the remote path of the key should be created
-#     state:                  # [default: present]
+#   - owner:                  # required, The name of the user that should own the file
+#     group:                  # optional, default=owner,  The name of the group that should own the file
+#     mode:                   # optional, default=0600,   The UNIX permission mode bits of the file
+#     src:                    # required, The local path of the key
+#     dest:                   # optional, default=id_rsa, The remote path of the key (relative to home/.ssh/)   ## has been removed
+#     dest_absolute:          # optional, The remote path of the key
+#     dest_managed:           # optional, default=true,   Whether or not the remote path of the key should be created
+#     state:                  # optional, default=present
 
 ssh_keys_public_keys: []
-#   - owner:                  # [required] The omite user that should own the file
-#     group:                  # [default: owner] The name of the group that should own the file
-#     mode:                   # [default: 0644] The UNIX permission mode bits of the file
-#     src:                    # [required] The local path of the key
-#     dest:                   # [default: id_rsa.pub] The remote path of the key (relative to home/.ssh/)   ## has been removed
-#     dest_absolute:          # [optional] The remote path of the key
-#     dest_managed:           # [default: true] Whether or not the remote path of the key should be created
-#     state:                  # [default: present]
+#   - owner:                  # required,      The omite user that should own the file
+#     group:                  # default=owner, The name of the group that should own the file
+#     mode:                   # default=0644,  The UNIX permission mode bits of the file
+#     src:                    # required,      The local path of the key
+#     dest:                   # default=id_rsa.pub, The remote path of the key (relative to home/.ssh/)   ## has been removed
+#     dest_absolute:          # optional,      The remote path of the key
+#     dest_managed:           # default=true,  Whether or not the remote path of the key should be created
+#     state:                  # default=present
 
 ssh_keys_authorized_keys: []
-#   - owner:                    # [required] The name of the user that should own the file
-#     src:                      # [required] The local path of the key
-#     state:                    # [default: present] State
-#     path:                     # [default: authorized_keys] Authorized keys file (absolute path, default to ~/.ssh/authorized_keys)
+#   - owner:                  # required, The name of the user that should own the file
+#     src:                    # required, The local path of the key
+#     state:                  # optional, default=present, State
+#     path:                   # optional, default=authorized_keys, Authorized keys file (absolute path, default to ~/.ssh/authorized_keys)
 
 ssh_keys_known_hosts: []
-#   - hostname:                 # [required] The hostname/domain name
-#     enctype:                  # [required] The type of the fingerprint: ssh-rsa, ssh-ed25519
-#     fingerprint:              # [required] The actual fingerprint: 'AAAAB3Nza...AaQ=='
-#     path:                     # absolute path of ~/known_hosts
+#   - hostname:               # required, The hostname/domain name
+#     enctype:                # required, The type of the fingerprint: ssh-rsa, ssh-ed25519
+#     fingerprint:            # required, The actual fingerprint: 'AAAAB3Nza...AaQ=='
+#     path:                   # absolute path of ~/known_hosts
 
 ssh_client_config: []
 #   - host:  desktop-x370
@@ -139,7 +139,7 @@ sshd_hostKey:                 /etc/ssh/ssh_host_ed25519_key
 sshd_PermitRootLogin:         "no"
 sshd_StrictModes:             "yes"
 sshd_MaxSessions:             5
-sshd_AuthorizedKeysFile:      ".ssh/authorized_keys .ssh/authorized_keys2"
+sshd_AuthorizedKeysFile:      "{{ ssh_client_path }}/authorized_keys {{ ssh_client_path }}/authorized_keys2"
 sshd_HostbasedAuthentication: "no"
 sshd_ChallengeResponseAuthentication: "no"  # Change to no to disable s/key passwords
 sshd_AllowAgentForwarding:    "no"
@@ -162,9 +162,8 @@ sshd_Subsystem:               "sftp /usr/libexec/openssh/sftp-server"      # ove
 
 
 ### OPENSSH-CLIENT ###
-## SUPPRIMER POUR METTRE EN default(value)
-ssh_client_dir:                .ssh
-ssh_keys_sshdir:               .ssh
+ssh_client_path:               .ssh
+ssh_keys_sshdir:               .ssh       ## A SUPPRIMER, la remplacer par ssh_client_path
 ssh_keys_private_key_filename: id_rsa
 ssh_keys_public_key_filename:  id_rsa.pub
 ssh_keys_known_hosts_path:     /etc/ssh/ssh_known_hosts ## A SUPPRIMER
