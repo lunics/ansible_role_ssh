@@ -42,6 +42,7 @@ ssh_keys_private_keys:
     src:   "{{ path_play }}/files/ssh/foo-key"
 ```
 TODO
+- encrypt private keys with vault and check copy module using and working
 - import_tasks: user_dirs.yml  create $USER/.ssh without care of path_dot
 - add inspired from repos
 - auto populate private keys needed by ssh_client_config

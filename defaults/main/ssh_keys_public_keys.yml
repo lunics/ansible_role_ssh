@@ -1,0 +1,9 @@
+ssh_keys_public_keys: []
+#   - owner:                  # required,      The omite user that should own the file
+#     group:                  # default=owner, The name of the group that should own the file
+#     mode:                   # default=0644,  The UNIX permission mode bits of the file
+#     src:                    # required,      The local path of the key
+#     dest:                   # default=id_rsa.pub, The remote path of the key (relative to home/.ssh/)   ## has been removed
+#     dest_absolute:          # optional,      The remote path of the key
+#     dest_managed:           # default=true,  Whether or not the remote path of the key should be created
+#     state:                  # default=present

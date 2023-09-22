@@ -1,0 +1,5 @@
+ssh_keys_known_hosts: []
+#   - hostname:               # required, The hostname/domain name
+#     enctype:                # required, The type of the fingerprint: ssh-rsa, ssh-ed25519
+#     fingerprint:            # required, The actual fingerprint: 'AAAAB3Nza...AaQ=='
+#     path:                   # absolute path of ~/known_hosts

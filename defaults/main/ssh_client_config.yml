@@ -1,0 +1,11 @@
+ssh_client_config: []
+#   - host:  desktop-x370
+#     owner: luke
+#     group: wheel
+#     user:  luke
+#     private_key: desktop-x370
+#     port: 6189                        # [default: 22]
+#     roaming: "no"                     # [default: no]
+#     password_authentification: "no"   # [default: no] allow only pub key
+#     proxy_jump:  userA@server_jump.org
+#     send_env:    GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL

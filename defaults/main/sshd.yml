@@ -1,0 +1,88 @@
+### OPENSSH-SERVER ###
+sshd_port: 22                           # define listening sshd port
+sshd_listen_address:                    # listening on specific address
+  - 0.0.0.0
+  # - "::"                              # IPv6 example
+sshd_protocol_version:  2               # use only ssh protocol version 2
+sshd_pubkey_authentication: "yes"
+sshd_host_key_files:    []              # check host key when sshd start
+sshd_syslog_facility:   AUTHPRIV
+sshd_log_level:         VERBOSE
+sshd_privilege_separation_59: sandbox   # use  privilege separation
+sshd_privilege_separation_53: "yes"
+sshd_login_grace_time:  30s
+sshd_root_login:        "no"
+sshd_strict_mode:       "yes"
+sshd_ignore_rhosts:     "yes"
+ssh_ignore_user_known_hosts:    "yes"
+sshd_hostbased_authentication:  "no"
+sshd_challenge_response_auth:   "no"
+sshd_password_authentification: "no"
+sshd_pam:               "yes"           # use pam authentification
+sshd_empty_passwords:   "no"
+sshd_max_auth_tries:    5               # Limit max connexion non-authentified concurency and max try
+sshd_max_startups:      "10:30:100"
+sshd_kerberos_support:  false
+sshd_gssapi_support:    false           # gssapi authentification
+sshd_x11_forwarding:    "no"
+sshd_print_motd:        "no"
+sshd_print_last_log:    "yes"
+sshd_tcp_keep_alive:    "no"
+sshd_print_banner:      "yes"
+sshd_banner_path:       /etc/banner  # created when a banner msg is defined. To use it enable sshd_print_banner
+sshd_banner_msg:        []
+#   ----------------------------- -- WARNING -- -----------------------------
+#   -- This system is for the use of authorized users only. Individuals    --
+#   -- using this computer system without authority or in excess of their  --
+#   -- authority are subject to having all their activities on this system --
+#   -- monitored and recorded by system personnel. Anyone using this       --
+#   -- system expressly consents to such monitoring and is advised that    --
+#   -- if such monitoring reveals possible evidence of criminal activity   --
+#   -- system personal may provide the evidence of such monitoring to law  --
+#   -- enforcement officials.                                              --
+sshd_accept_env:              "LANG LC_*"  # Allow client to pass locale environment variables
+sshd_agent_forwarding:        "no"
+sshd_tcp_forwarding:          "no"
+sshd_client_alive_intervale:  300   # time in second before disconnect from idle sessions
+sshd_client_alive_countMax:   2
+
+
+## UNUSED ##
+sshd_gss_api_authentication:  "no"
+sshd_allowed_users:           []    # Space separated list of users that may login - Read the README on how to use this!
+sshd_allowed_groups:          []    # Space separated list of groups that may login - Read the README on how to use this!
+sshd_ciphers:                 []
+sshd_enabled_ciphers:         []
+sshd_disabled_ciphers:        []
+# Misc
+sshd_usedns:                  "no"
+# Hashicorp Vault Settings
+sshd_vault_trusted_ca_enable: "no"
+sshd_vault_server:            "https://127.0.0.1:8200"
+sshd_vault_ca_cert:           trusted-user-ca-keys.pem
+
+sshd_address_family:          any     ## inet or any ?
+sshd_hostKey:                 /etc/ssh/ssh_host_ed25519_key
+sshd_PermitRootLogin:         "no"
+sshd_StrictModes:             "yes"
+sshd_MaxSessions:             5
+sshd_AuthorizedKeysFile:      "{{ ssh_client_path }}/authorized_keys {{ ssh_client_path }}/authorized_keys2"
+sshd_HostbasedAuthentication: "no"
+sshd_ChallengeResponseAuthentication: "no"  # Change to no to disable s/key passwords
+sshd_AllowAgentForwarding:    "no"
+sshd_AllowTcpForwarding:      "no"
+sshd_GatewayPorts:            "no"
+sshd_PermitTTY:               "yes"
+sshd_PermitUserEnvironment:   "no"
+#PermitUserEnvironment        "no"
+#Compression delayed
+#ClientAliveInterval          0
+#ClientAliveCountMax          3
+#ShowPatchLevel "no"
+sshd_PidFile:                 "/var/run/sshd.pid"
+sshd_MaxStartups:             "10:30:100"
+sshd_PermitTunnel:            "no"
+#ChrootDirectory              "none"
+sshd_VersionAddendum:         "none"
+sshd_Subsystem:               "sftp /usr/libexec/openssh/sftp-server"      # override default of "no" subsystems
+## END UNUSED ##

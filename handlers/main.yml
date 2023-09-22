@@ -2,7 +2,9 @@
   service:
     name: "{{ sshd.service }}"
     state: restarted
-  when: sshd_enable | bool
+  when:
+    - sshd_enable | bool
+    - ansible_play_name != 'chroot'
 
 - name: handler | service > reload sshd
   systemd:

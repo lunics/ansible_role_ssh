@@ -1,0 +1,72 @@
+# ssh_keys_generate_keys_command: []  # default=_ssh_keys_generate_keys_command
+# ssh_keys_generate_keys_become: []   # default=false, Whether or not to use sudo when generating ssh keys (locally)
+
+public_keys: []             # transfert ssh public on the target host
+# - key1
+# - key2
+
+sshd_hardening: true        # hardening server
+ssh_hardening:  true        # herdening client
+sshd_enable:    true        # toggle service sshd
+openssh_keys:   true        # Enable public keys transfert
+aur_user:       ""
+
+### OPENSSH-CLIENT ###
+ssh_client_path:               .ssh
+ssh_keys_sshdir:               .ssh       ## A SUPPRIMER, la remplacer par ssh_client_path
+ssh_keys_private_key_filename: id_rsa
+ssh_keys_public_key_filename:  id_rsa.pub
+ssh_keys_known_hosts_path:     /etc/ssh/ssh_known_hosts ## A SUPPRIMER
+
+### CRYPTOGRAPHY ###
+openssh_ciphers: []
+openssh_macs: []
+openssh_kexalgorithms: []
+
+# cipher do not use sha1
+ciphers_openssh_66:
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+  - aes256-ctr
+  - aes192-ctr
+  - aes128-ctr
+ciphers_openssh_53:
+  - aes256-ctr
+  - aes192-ctr
+  - aes128-ctr
+
+# Message authentication code
+macs_openssh_76:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+  - umac-128-etm@openssh.com
+  - hmac-sha2-512
+  - hmac-sha2-256
+
+macs_openssh_66:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+  - umac-128-etm@openssh.com
+  - hmac-sha2-512
+  - hmac-sha2-256
+
+macs_openssh_59:
+  - hmac-sha2-512
+  - hmac-sha2-256
+
+macs_openssh_53:
+  - hmac-sha1
+
+# Key exchange algorithms
+kexalgorithms_openssh_66:
+  - curve25519-sha256@libssh.org
+  - diffie-hellman-group-exchange-sha256
+kexalgorithms_openssh_53:
+  - diffie-hellman-group-exchange-sha256
+
+ssh_host_key_algorithms:                  # host key algorithms
+  - ssh-ed25519-cert-v01@openssh.com
+  - ssh-rsa-cert-v01@openssh.com
+  - ssh-ed25519
+  - ssh-rsa

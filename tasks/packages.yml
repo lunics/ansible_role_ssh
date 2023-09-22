@@ -4,24 +4,16 @@
       name: "{{ item }}"
     loop: "{{ ssh.packages }}"
 
-  - name: packages | user > check aur user exists
-    user:
-      name:  aur
-      state: present
-    check_mode:  true
-    failed_when: false
-    register: r_aur
-
   - name: packages | aur > install sshs
     aur:
       name: "{{ item }}"
     with_items:
       - sshs
-    become_user: aur
+    become_user: "{{ aur_user }}"
     when:
       - ansible_distribution == "Archlinux"
       - ansible_architecture != "aarch64"
       - ansible_play_name    != "chroot"
-      - r_aur is succeeded
+      - aur_user | length
 
   tags: ssh_packages

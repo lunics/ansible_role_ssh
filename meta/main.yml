@@ -1,7 +1,7 @@
 galaxy_info:
   role_name:    ssh
   author:       lunics
-  description:  A role to install a SSH server and client
+  description:  A role to install a SSH server and client.
   license:      GPL-3.0
   company:      none
   min_ansible_version: 2.1
