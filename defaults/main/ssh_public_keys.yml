@@ -1,4 +1,4 @@
-ssh_keys_public_keys: []
+ssh_public_keys: []
 #   - owner:                  # required,      The omite user that should own the file
 #     group:                  # default=owner, The name of the group that should own the file
 #     mode:                   # default=0644,  The UNIX permission mode bits of the file

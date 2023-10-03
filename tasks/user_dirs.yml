@@ -45,7 +45,7 @@
       group: "{{ item.group | default(omit) }}"
       mode:  "0700"
     when:
-      - ssh_keys_public_keys | length
+      - ssh_public_keys | length
       - item.dest_managed    | default(true)
     tags: ssh_public_keys_dir
 
