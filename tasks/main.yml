@@ -11,7 +11,7 @@
 
   - import_tasks: ssh_client_config.yml
 
-  - import_tasks: private_keys.yml    ## KO
+  - import_tasks: private_keys.yml
 
   - import_tasks: public_keys.yml
 
