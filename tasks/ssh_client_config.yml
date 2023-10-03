@@ -2,7 +2,7 @@
   - name: ssh_client_config | template > generate openssh-client config
     template:
       src:   ssh_config.j2
-      dest:  "/home/{{ item.owner }}/.ssh/config"
+      dest:  "{{ ('/root' if item.owner == 'root' else ('/home/' + item.owner)) + '/' + (item.path | default('.ssh')) + '/config' }}"
       owner: "{{ item.owner }}"
       group: "{{ item.group | default(omit) }}"
       mode:  "0600"
