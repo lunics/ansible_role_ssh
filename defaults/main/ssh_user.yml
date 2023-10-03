@@ -1,4 +1,5 @@
-ssh_user: []                  # to generate ~/.ssh dir and ~/.ssh/config client based on the 'owner' key
-#   - owner: luke             # required
-#     group: wheel            # optional
-#     path:  custom/ssh       # optional, relative path of client ssh (ex: /home/luke/custom/ssh)
+ssh_user: []                      # to generate ~/.ssh dir and ~/.ssh/config client based on the 'owner' key
+#   - owner: luke                 # required
+#     group: wheel                # optional
+#     path:  .config/ssh          # optional, default=.ssh, relative path of client ssh (ex: /home/luke/.config/ssh)
+#     private_keys_path:          # optional, default=ssh_user.path,

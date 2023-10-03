@@ -1,4 +1,4 @@
-ssh_keys_authorized_keys: []
+ssh_keys_authorized_keys: []  # dict that populates ~/.ssh/authorized_keys
 #   - owner:                  # required, The name of the user that should own the file
 #     src:                    # required, The local path of the key
 #     state:                  # optional, default=present, State

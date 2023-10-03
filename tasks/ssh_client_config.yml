@@ -7,6 +7,6 @@
       group: "{{ item.group | default(omit) }}"
       mode:  "0600"
     when: ssh_client_config | length
-    with_items: "{{ ssh_user }}"
+    loop: "{{ ssh_user }}"
 
   tags: ssh_client_config

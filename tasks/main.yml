@@ -5,13 +5,13 @@
 
   - import_tasks: sshd_config.yml
 
-  - import_tasks: user_dirs.yml       ## create $USER/.ssh without care of path_dot
-
-  - import_tasks: ssh_client_config.yml
+  - import_tasks: user_dirs.yml       ## KO ## create $USER/.ssh without care of path_dot
 
   - import_tasks: generate_keys.yml
 
-  - import_tasks: private_keys.yml
+  - import_tasks: ssh_client_config.yml
+
+  - import_tasks: private_keys.yml    ## KO
 
   - import_tasks: public_keys.yml
 
