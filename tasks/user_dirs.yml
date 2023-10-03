@@ -21,18 +21,18 @@
 
   - name: user_dirs | file > create private keys directory
     file:
-      #old path:  "{{ (item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.dest | default(ssh_keys_private_key_filename)))) | dirname }}"
+      #old path:  "{{ (item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.dest | default(ssh_private_key_filename)))) | dirname }}"
       path:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) }}"
       state: directory
       owner: "{{ item.0.owner }}"
       group: "{{ item.0.group | default(omit) }}"
       mode:  "0700"
     when:
-      - ssh_keys_private_keys | length
+      - ssh_private_keys | length
       #old - item.0.dest_managed   | default(true)    # auto managed if defined in ssh_user.path else in ~/.ssh
       - item.0.owner == item.1.owner
     with_nested:
-      - "{{ ssh_keys_private_keys }}"
+      - "{{ ssh_private_keys }}"
       - "{{ ssh_user }}"
     tags: ssh_private_keys_dir
 

@@ -1,0 +1,11 @@
+ssh_private_keys: []     # dict that copies private keys in ~/.ssh by default (can be override)
+#   - owner:             # required, The name of the user that should own the file
+#     group:             # optional, default=owner,  The name of the group that should own the file
+#     mode:              # optional, default=0600,   The UNIX permission mode bits of the file
+#     src:               # required, The local path of the key
+#     dest:              # optional, default=id_rsa, The remote name of the key (relative to $HOME/.ssh/)
+#     state:             # optional, default=present
+
+# A DELETE
+#     dest_absolute:     # optional, The remote path of the key # déplacé dans ssh_user car 1 seul dossier par utilisateur et non 1 par clé privée
+#     dest_managed:      # optional, default=true,   Whether or not the remote path of the key should be created ?

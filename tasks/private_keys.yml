@@ -2,16 +2,16 @@
   - name: private_keys | copy > private keys
     copy:
       src:   "{{ item.0.src }}"
-      #old dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_private_key_filename))) }}"
+      #old dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
       dest:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) }}"
       owner: "{{ item.0.owner }}"
       group: "{{ item.0.group | default(omit)   }}"
       mode:  "{{ item.0.mode  | default('0600') }}"
     with_nested:
-      - "{{ ssh_keys_private_keys }}"
+      - "{{ ssh_private_keys }}"
       - "{{ ssh_user }}"
     when:
-      - ssh_keys_private_keys | length
+      - ssh_private_keys | length
       - item.0.state is undefined or item.0.state == "present"
       - item.0.owner == item.1.owner
       - inventory_hostname != "chroot"
@@ -19,15 +19,15 @@
 
   - name: private_keys | file > remove private keys
     file:
-      #old path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_private_key_filename))) }}"
+      #old path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
       path:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) + '/' + (item.0.src | basename) }}"
       state: absent
     when:
-      - ssh_keys_private_keys | length
+      - ssh_private_keys | length
       - item.0.state is defined and item.0.state == "absent"
       - item.0.owner == item.1.owner
     with_nested:
-      - "{{ ssh_keys_private_keys }}"
+      - "{{ ssh_private_keys }}"
       - "{{ ssh_user }}"
     tags: ssh_private_keys_remove
 
