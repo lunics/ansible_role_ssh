@@ -10,7 +10,7 @@ Protocol {{ sshd_protocol_version }}
 
 PubkeyAuthentication {{ sshd_pubkey_authentication }}
 
-AuthorizedKeysFile /home/%u/{{ ssh_client_path }}/authorized_keys
+AuthorizedKeysFile /home/%u/.ssh/authorized_keys
 
 {% for item in ssh_user %}
   {%- if item.path is defined %}

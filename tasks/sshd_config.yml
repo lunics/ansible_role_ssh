@@ -15,7 +15,7 @@
       owner: "{{ sshd.config.owner }}"
       group: "{{ sshd.config.group }}"
       mode:  "0600"
-    notify: "handler | service > restart sshd"
+    notify: "service > restart sshd"
 
   - name: sshd_config | service > start and enable sshd
     service:

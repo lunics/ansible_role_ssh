@@ -1,4 +1,4 @@
-- name: handler | service > restart sshd
+- name: service > restart sshd
   service:
     name: "{{ sshd.service }}"
     state: restarted
@@ -6,7 +6,7 @@
     - sshd_enable | bool
     - ansible_play_name != 'chroot'
 
-- name: handler | service > reload sshd
+- name: service > reload sshd
   systemd:
     name:  "{{ sshd.service }}"
     state: reloaded
