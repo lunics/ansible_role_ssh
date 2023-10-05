@@ -1,7 +1,7 @@
 {{ ansible_managed | comment }}
 
 {% for item_client in ssh_client_config %}
-{% if item.owner == item_client.owner %}
+{%   if item.owner == item_client.owner %}
 Host {{ item_client.host }}
   User {{ item_client.user }}
   IdentityFile ~/.ssh/{{ item_client.private_key }}
@@ -15,8 +15,8 @@ Host {{ item_client.host }}
   {% if item_client.send_env is defined %}
   SendEnv {{ item_client.send_env }}
   {% endif %}
-{% endif %}
-{% endfor %}
+{%   endif +%}
+{% endfor   %}
 
 {#
 Host ...
