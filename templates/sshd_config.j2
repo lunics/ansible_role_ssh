@@ -15,7 +15,7 @@ AuthorizedKeysFile /home/%u/.ssh/authorized_keys
 {% for item in ssh_user %}
   {%- if item.path is defined %}
 match User {{ item.owner }}
-  AuthorizedKeysFile /home/%u/{{ item.path }}
+  AuthorizedKeysFile /home/%u/{{ item.path }}/authorized_keys
   {% endif %}
 {% endfor -%}
 
