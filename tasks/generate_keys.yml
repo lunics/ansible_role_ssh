@@ -43,12 +43,12 @@
 
   - name: generate_keys | openssh_keypair > create private & public keys
     openssh_keypair:
-      path:       "{{ item.path }}"
+      path:       "{{ item.path    }}"
       type:       "{{ item.type    | default('ed25519') }}"
       size:       "{{ item.size    | default(omit)  }}"
       passphrase: "{{ item.passwd  | default(omit)  }}"
       comment:    "{{ item.comment | default(omit)  }}"
-      owner:      "{{ item.owner }}"
+      owner:      "{{ item.owner   }}"
       group:      "{{ item.group   | default(omit)  }}"
       mode:       "{{ item.mode    | default('0600')}}"
       regenerate: full_idempotence

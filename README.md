@@ -42,6 +42,8 @@ ssh_keys_private_keys:
     src:   "{{ path_play }}/files/ssh/foo-key"
 ```
 TODO
+- combine dict with a default to avoid undefined
+- remove root install for all tasks
 - encrypt private keys with vault and check copy module using and working
 - import_tasks: user_dirs.yml  create $USER/.ssh without care of path_dot
 - add inspired from repos
@@ -49,4 +51,3 @@ TODO
 - replace ssh_keys_generate_keys.path by ssh_keys_generate_keys.dest
 - change all vars/main.yml like sshd.config.path by sshd_confing_path ?
 - know_hosts.yml
-- add root compatibility for AuthorizedKeysFile on sshd_config

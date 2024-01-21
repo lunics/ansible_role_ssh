@@ -2,8 +2,9 @@
   - name: private_keys | copy > private keys
     copy:
       src:   "{{ item.0.src }}"
-      #old dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
-      dest:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) }}"
+      #v1 dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
+      #v2 dest:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) }}"
+      dest:  "{{ item.1.private_keys_path | default('/home/' + item.0.owner + '/' + (item.1.path | default('.ssh'))) }}"
       owner: "{{ item.0.owner }}"
       group: "{{ item.0.group | default(omit)   }}"
       mode:  "{{ item.0.mode  | default('0600') }}"
@@ -19,8 +20,9 @@
 
   - name: private_keys | file > remove private keys
     file:
-      #old path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
-      path:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) + '/' + (item.0.src | basename) }}"
+      #v1 path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
+      #v2 path:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) + '/' + (item.0.src | basename) }}"
+      path:  "{{ item.1.private_keys_path | default('/home/' + item.0.owner + '/' + (item.1.path | default('.ssh')) + '/' + (item.0.src | basename) }}"
       state: absent
     when:
       - ssh_private_keys | length

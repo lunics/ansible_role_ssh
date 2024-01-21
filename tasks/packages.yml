@@ -9,11 +9,11 @@
       name: "{{ item }}"
     with_items:
       - sshs
-    become_user: "{{ aur_user }}"
     when:
       - ansible_distribution == "Archlinux"
       - ansible_architecture != "aarch64"
       - ansible_play_name    != "chroot"
       - aur_user | length
+    become_user: "{{ aur_user }}"
 
   tags: ssh_packages

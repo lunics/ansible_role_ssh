@@ -11,7 +11,7 @@
 
   - name: user_dirs | file > create default user ssh directory
     file:
-      path:  "{{ ('/root' if item.owner == 'root' else ('/home/' + item.owner)) + '/' + (item.path | default('.ssh')) }}"
+      path:  "/home/{{ item.owner + '/' + (item.path | default('.ssh')) }}"
       owner: "{{ item.owner }}"
       group: "{{ item.group | default(omit) }}"
       mode:  "0700"
@@ -22,7 +22,7 @@
   - name: user_dirs | file > create private keys directory
     file:
       #old path:  "{{ (item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.dest | default(ssh_private_key_filename)))) | dirname }}"
-      path:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) }}"
+      path:  "{{ item.1.private_keys_path | default('/home/' + item.0.owner + '/' + (item.1.path | default('.ssh'))) }}"
       state: directory
       owner: "{{ item.0.owner }}"
       group: "{{ item.0.group | default(omit) }}"
