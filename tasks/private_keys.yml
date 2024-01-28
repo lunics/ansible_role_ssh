@@ -1,42 +1,30 @@
 - block:
   - name: private_keys | copy > Private keys
     copy:
-      src:   "{{ item.1 }}"
-      dest:  "/home/{{ item.0.name + '/' + (item.0.ssh_path | default('.ssh')) }}"
+      src:   "{{ item.1.src | default(item.1) }}"
+      dest:  "/home/{{ item.0.name + '/' + (item.0.ssh.path | default('.ssh')) }}"
       owner: "{{ item.0.name }}"
-      group: "{{ item.0.group | default(omit)   }}"
+      group: "{{ item.0.group | default(item.0.name) }}"
       mode:  "0600"
     when:
-      - item.0.ssh_private_keys is defined
       - item.1.state is undefined or item.1.state == "present"
       - inventory_hostname != "chroot"
     with_subelements:
       - "{{ user }}"
-      - ssh_private_keys
+      - ssh.private_keys
       - skip_missing: true
-    # with_nested:
-    #   - "{{ ssh_private_keys }}"
-    #   - "{{ ssh_user }}"
-    # when:
-    #   - ssh_private_keys | length
-    #   - item.0.state is undefined or item.0.state == "present"
-    #   - item.0.owner == item.1.owner
-    #   - inventory_hostname != "chroot"
-    tags: ssh_private_keys_add
 
-  #- name: private_keys | file > remove private keys
-  #  file:
-  #    #v1 path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_private_key_filename))) }}"
-  #    #v2 path:  "{{ item.1.private_keys_path | default(('/root' if item.0.owner == 'root' else ('/home/' + item.0.owner)) + '/' + (item.1.path | default('.ssh'))) + '/' + (item.0.src | basename) }}"
-  #    path:  "{{ item.1.private_keys_path | default('/home/' + item.0.owner + '/' + (item.1.path | default('.ssh')) + '/' + (item.0.src | basename) }}"
-  #    state: absent
-  #  when:
-  #    - ssh_private_keys | length
-  #    - item.0.state is defined and item.0.state == "absent"
-  #    - item.0.owner == item.1.owner
-  #  with_nested:
-  #    - "{{ ssh_private_keys }}"
-  #    - "{{ ssh_user }}"
-  #  tags: ssh_private_keys_remove
+  - name: private_keys | file > remove private keys
+    file:
+      path:  "/home/{{ item.0.name + '/' + (item.0.ssh.path | default('.ssh')) + '/' + (item.1.src | basename) }}"
+      state: absent
+    when:
+      - item.1.state is defined
+      - item.1.state == "absent"
+    with_subelements:
+      - "{{ user }}"
+      - ssh.private_keys
+      - skip_missing: true
+    tags: ssh_private_keys_remove
 
   tags: ssh_private_keys

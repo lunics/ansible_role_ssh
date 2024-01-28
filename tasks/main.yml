@@ -11,7 +11,7 @@
 
   - import_tasks: client_config.yml
 
-  # - import_tasks: private_keys.yml
+  - import_tasks: private_keys.yml
 
 #   # - import_tasks: public_keys.yml   # KO, faire comme private_keys.yml
 
