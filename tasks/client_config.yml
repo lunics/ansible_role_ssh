@@ -2,12 +2,11 @@
   - name: client_config | template > Generate openssh-client config
     template:
       src:   ssh_config.j2
-      dest:  "/home/{{ item.name + '/' + (item.ssh_path | default('.ssh')) }}/config"
+      dest:  "/home/{{ item.name + '/' + (item.ssh.path | default('.ssh')) }}/config"
       owner: "{{ item.name }}"
       group: "{{ item.group | default(item.name) }}"
       mode:  "0600"
-    when: item.ssh_config is defined
-    loop: "{{ user }}"
-    become_user: root
+    when: item.ssh.config is defined
+    with_items: "{{ user }}"
 
   tags: ssh_client_config, ssh_client

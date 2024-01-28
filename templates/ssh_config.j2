@@ -1,6 +1,6 @@
 {{ ansible_managed | comment }}
 
-{% for item_client in item.ssh_config %}
+{% for item_client in item.ssh.config %}
 Host {{ item_client.host }}
   User {{ item_client.user }}
   IdentityFile ~/.ssh/{{ item_client.private_key }}
