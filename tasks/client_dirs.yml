@@ -1,14 +1,13 @@
 - block:
   - name: user_dirs | file > Create default user ssh directory
     file:
-      path:  "/home/{{ item.name + '/' + (item.ssh_path | default('.ssh')) }}"
+      path:  "/home/{{ item.name + '/' + (item.ssh.path | default('.ssh')) }}"
       owner: "{{ item.name }}"
       group: "{{ item.group | default(item.name) }}"
       mode:  "0700"
       state: directory
-    when: item.ssh_path is defined
-    loop:
-      - "{{ user }}"
+    when: item.ssh is defined
+    with_items: "{{ user }}"
     tags: ssh_client_config_dir
 
   # - name: user_dirs | file > Create private keys directory
