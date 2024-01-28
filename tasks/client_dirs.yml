@@ -1,0 +1,42 @@
+- block:
+  - name: user_dirs | file > Create default user ssh directory
+    file:
+      path:  "/home/{{ item.name + '/' + (item.ssh_path | default('.ssh')) }}"
+      owner: "{{ item.name }}"
+      group: "{{ item.group | default(item.name) }}"
+      mode:  "0700"
+      state: directory
+    when: item.ssh_path is defined
+    loop:
+      - "{{ user }}"
+    tags: ssh_client_config_dir
+
+  # - name: user_dirs | file > Create private keys directory
+  #   file:
+  #     path:  "{{ item.1.private_keys_path | default('/home/' + item.0.owner + '/' + (item.1.path | default('.ssh'))) }}"
+  #     state: directory
+  #     owner: "{{ item.0.owner }}"
+  #     group: "{{ item.0.group | default(omit) }}"
+  #     mode:  "0700"
+  #   when:
+  #     - ssh_private_keys | length
+  #     #old - item.0.dest_managed   | default(true)    # auto managed if defined in ssh_user.path else in ~/.ssh
+  #     - item.0.owner == item.1.owner
+  #   with_nested:
+  #     - "{{ ssh_private_keys }}"
+  #     - "{{ ssh_user }}"
+  #   tags: ssh_private_keys_dir
+
+  # - name: public_keys | file > create public keys directory
+  #   file:
+  #     path:  "{{ ('/root' if item.owner == 'root' else ('/home/' + item.owner)) + '/' + ssh_keys_sshdir }}"
+  #     state: directory
+  #     owner: "{{ item.owner }}"
+  #     group: "{{ item.group | default(omit) }}"
+  #     mode:  "0700"
+  #   when:
+  #     - ssh_public_keys | length
+  #     - item.dest_managed    | default(true)
+  #   tags: ssh_public_keys_dir
+
+  tags: ssh_client_dirs
