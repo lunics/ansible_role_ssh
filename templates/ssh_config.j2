@@ -1,7 +1,6 @@
 {{ ansible_managed | comment }}
 
-{% for item_client in ssh_client_config %}
-{%   if item.owner == item_client.owner %}
+{% for item_client in item.ssh_config %}
 Host {{ item_client.host }}
   User {{ item_client.user }}
   IdentityFile ~/.ssh/{{ item_client.private_key }}
@@ -9,15 +8,14 @@ Host {{ item_client.host }}
   Protocol 2
   StrictHostKeyChecking no
   PasswordAuthentication {{ item_client.password_authentification | default('no') }}
-{%     if item_client.proxy_jump is defined %}
+{%   if item_client.proxy_jump is defined %}
   ProxyJump {{ item_client.proxy_jump }}
-{%     endif %}
-{%     if item_client.send_env is defined %}
+{%   endif %}
+{%   if item_client.send_env is defined %}
   SendEnv {{ item_client.send_env }}
-{%     endif %}
-{%     if item_client.set_env is defined %}
+{%   endif %}
+{%   if item_client.set_env is defined %}
   SetEnv {{ item_client.set_env }}
-{%     endif %}
 {%   endif +%}
 {% endfor   %}
 
