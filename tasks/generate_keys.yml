@@ -1,5 +1,5 @@
 - block:
-  - name: generate_keys | file > create ssh key generation directory
+  - name: generate_keys | file > Create ssh key generation directory
     file:
       path:  "{{ item.path | dirname }}"
       state: directory
@@ -41,7 +41,7 @@
   #   with_items: "{{ ssh_keys_generate_keys }}"
   #   tags: ssh_set_keys_permissions
 
-  - name: generate_keys | openssh_keypair > create private & public keys
+  - name: generate_keys | openssh_keypair > Create private & public keys
     openssh_keypair:
       path:       "{{ item.path    }}"
       type:       "{{ item.type    | default('ed25519') }}"
@@ -57,5 +57,4 @@
 
   when: ansible_play_name != "chroot"
   # delegate_to: localhost                       ## needs --ask-become-pass when running a PB in localhost with this delegate_to
-  # become: "{{ ssh_keys_generate_keys_become }}"
   tags: ssh_generate_keys

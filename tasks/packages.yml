@@ -1,10 +1,10 @@
 - block:
-  - name: packages | package > install dependencies
+  - name: packages | package > Install dependencies
     package:
       name: "{{ item }}"
     loop: "{{ ssh.packages }}"
 
-  - name: packages | aur > install sshs
+  - name: packages | aur > Install sshs
     aur:
       name: "{{ item }}"
     with_items:
