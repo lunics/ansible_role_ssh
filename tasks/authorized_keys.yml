@@ -1,15 +1,13 @@
 - block:
   - name: authorized_keys | set up pub keys for users
     authorized_key:
-      user:  "{{ item.0.owner }}"
-      key:   "{{ lookup('file', item.0.src) }}"
-      path:  "/home/{{ item.0.owner + '/' + (item.1.path | default('.ssh')) }}/authorized_keys"
-      state: "{{ item.0.state | default('present') }}"
-    when:
-      - ssh_authorized_keys | length
-      - item.0.owner == item.1.owner
-    with_nested:
-      - "{{ ssh_authorized_keys }}"
-      - "{{ ssh_user }}"
+      user:  "{{ item.0.name }}"
+      key:   "{{ lookup('file', item.1.src | default(item.1)) }}"
+      path:  "/home/{{ item.0.name + '/' + (item.1.ssh.path | default('.ssh')) }}/authorized_keys"
+      state: "{{ item.1.state | default('present') }}"
+    with_subelements:
+      - "{{ user }}"
+      - ssh.autorized_keys
+      - skip_missing: true
 
   tags: ssh_authorized_keys

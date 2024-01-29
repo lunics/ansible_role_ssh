@@ -1,25 +1,30 @@
 - block:
-  - name: public-keys | copy > public keys
+  - name: public_keys | copy > Public keys
     copy:
-      src:   "{{ item.src }}"
-      dest:  "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_public_key_filename))) }}"
-      owner: "{{ item.owner }}"
-      group: "{{ item.group | default(omit) }}"
-      mode:  "{{ item.mode | default('0644') }}"
-    with_items: "{{ ssh_public_keys }}"
+      src:   "{{ item.1.src | default(item.1) }}"
+      dest:  "/home/{{ item.0.name + '/' + (item.0.ssh.path | default('.ssh')) }}"
+      owner: "{{ item.0.name }}"
+      group: "{{ item.0.group | default(item.0.name) }}"
+      mode:  "0600"
     when:
-      - ssh_public_keys | length
-      - item.state is undefined or item.state == 'present'
+      - item.1.state is undefined or item.1.state == "present"
+    with_subelements:
+      - "{{ user }}"
+      - ssh.public_keys
+      - skip_missing: true
     tags: ssh_public_keys_add
 
-  - name: public-keys | file > remove public key
+  - name: public_keys | file > Remove public keys
     file:
-      path: "{{ item.dest_absolute | default('~' + item.owner + '/' + ssh_keys_sshdir + '/' + (item.src | basename | default(ssh_keys_public_key_filename))) }}"
+      path:  "/home/{{ item.0.name + '/' + (item.0.ssh.path | default('.ssh')) + '/' + (item.1.src | basename) }}"
       state: absent
-    with_items: "{{ ssh_public_keys }}"
     when:
-      - ssh_public_keys | length
-      - item.state is defined and item.state == 'absent'
+      - item.1.state is defined
+      - item.1.state == "absent"
+    with_subelements:
+      - "{{ user }}"
+      - ssh.public_keys
+      - skip_missing: true
     tags: ssh_public_keys_remove
 
   tags: ssh_public_keys

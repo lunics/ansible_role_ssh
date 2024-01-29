@@ -13,11 +13,11 @@
 
   - import_tasks: private_keys.yml
 
-#   # - import_tasks: public_keys.yml   # KO, faire comme private_keys.yml
+  - import_tasks: public_keys.yml
 
-#   - import_tasks: authorized_keys.yml
+  - import_tasks: authorized_keys.yml
 
-#   # - import_tasks: known_hosts.yml     ## todo
+  # - import_tasks: known_hosts.yml
 
   become_user: root
   tags: ssh
