@@ -1,13 +1,27 @@
 {{ ansible_managed | comment }}
+HostKeyAlgorithms=+ssh-dss
+PubkeyAcceptedKeyTypes +ssh-rsa
+ConnectTimeout 5
 
 {% for item_client in item.ssh.config %}
 Host {{ item_client.host }}
+{%   if item_client.hostname is defined %}
+  HostName {{ item_client.hostname }}
+{%   endif %}
+{%   if item_client.user is defined %}
   User {{ item_client.user }}
+{%   endif %}
   IdentityFile ~/.ssh/{{ item_client.private_key }}
-  Port {{ item_client.port | default('22') }}
+{%   if item_client.port is defined %}
+  Port {{ item_client.port }}
+{%   endif %}
+{%   if item_client.protocol_version is defined %}
   Protocol 2
+{%   endif %}
   StrictHostKeyChecking no
-  PasswordAuthentication {{ item_client.password_authentification | default('no') }}
+{%   if item_client.password_authentification is defined %}
+  PasswordAuthentication {{ item_client.password_authentification }}
+{%   endif %}
 {%   if item_client.proxy_jump is defined %}
   ProxyJump {{ item_client.proxy_jump }}
 {%   endif %}

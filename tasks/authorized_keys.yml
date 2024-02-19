@@ -1,5 +1,8 @@
 - block:
-  - name: authorized_keys | set up pub keys for users
+  - debug:
+      var: user
+
+  - name: authorized_keys | Set up pub keys for users
     authorized_key:
       user:  "{{ item.0.name }}"
       key:   "{{ lookup('file', item.1.src | default(item.1)) }}"

@@ -5,6 +5,7 @@ ssh_client_config: []                   # dict to generate ~/.ssh/config
 #     user:  luke
 #     private_key: desktop-x370
 #     port: 6189                        # [default: 22]
+#     hostname: 192.168.10.20
 #     roaming: "no"                     # [default: no]
 #     password_authentification: "no"   # [default: no] allow only pub key
 #     proxy_jump:  userA@server_jump.org
