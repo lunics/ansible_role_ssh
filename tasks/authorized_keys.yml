@@ -1,7 +1,4 @@
 - block:
-  - debug:
-      var: user
-
   - name: authorized_keys | Set up pub keys for users
     authorized_key:
       user:  "{{ item.0.name }}"
@@ -10,7 +7,7 @@
       state: "{{ item.1.state | default('present') }}"
     with_subelements:
       - "{{ user }}"
-      - ssh.autorized_keys
+      - ssh.authorized_keys
       - skip_missing: true
 
-  tags: ssh_authorized_keys
+  tags: ssh_authorized_keys, authorized_keys
